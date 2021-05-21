@@ -7,7 +7,12 @@ import java.util.Map;
 
 public class Zip {
     public static Flux<String> apply(Flux<String> data) {
-        return data;
+        return data.flatMap(character ->
+            Mono.zip(
+                    Zip.originForCharacter(character),
+                    Zip.favouriteNumberForCharacter(character)
+            ).map(mix -> character + " - " + mix.getT1() + " - " + mix.getT2())
+        );
     }
 
     private static Mono<String> originForCharacter(String character) {
