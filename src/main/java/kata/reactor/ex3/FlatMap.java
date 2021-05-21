@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class FlatMap {
     public static Flux<String> apply(Flux<String> data) {
-        return data;
+        return data.flatMap(character -> FlatMap.originForCharacter(character).map(site -> character + " - " + site));
     }
 
     private static Mono<String> originForCharacter(String character) {
